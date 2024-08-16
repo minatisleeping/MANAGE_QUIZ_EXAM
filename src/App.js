@@ -4,7 +4,7 @@ import { Outlet } from 'react-router-dom'
 
 const App = () => {
   return (
-    <div className="app-container">
+    <div className='app-container'>
       <div className='header-container'>
         <Header />
       </div>
@@ -14,7 +14,6 @@ const App = () => {
         </div>
         <div className='app-content'>
           <Outlet />
-
         </div>
       </div>
     </div>
