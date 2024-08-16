@@ -11,13 +11,21 @@ body {
 .app-container {
   .header-container {
     .navbar-nav {
+      z-index: 1;
+      opacity: 0.6;
       .nav-link {
         &.active {
           color: #6096ba;
           font-weight: 700;
+          
         }
       }
     }
   }
+}
 
+video {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
 }
