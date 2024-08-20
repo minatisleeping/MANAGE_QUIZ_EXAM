@@ -8,10 +8,9 @@ import {
 import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa'
 import sidebarBg from '../../assets/bg2.jpg'
 import './SideBar.scss'
-
 import { DiReact } from 'react-icons/di'
 import { MdDashboard } from 'react-icons/md'
-
+import { Link } from 'react-router-dom'
 
 const SideBar = (props) => {
   const { image, collapsed, toggled, handleToggleSidebar } = props
@@ -48,6 +47,7 @@ const SideBar = (props) => {
             icon={<MdDashboard />}
           >
             Dashboard
+            <Link to='/admin' />
           </MenuItem>
         </Menu>
         <Menu iconShape='circle'>
@@ -55,9 +55,18 @@ const SideBar = (props) => {
             icon={<FaGem />}
             title='Features'
           >
-            <MenuItem>Manage User</MenuItem>
-            <MenuItem>Manage Quiz</MenuItem>
-            <MenuItem>Manage Answer</MenuItem>
+            <MenuItem>
+              Manage User
+              <Link to='/admin/manage-user' />
+            </MenuItem>
+            <MenuItem>
+              Manage Quiz
+              <Link to='/admin/manage-quiz' />
+            </MenuItem>
+            <MenuItem>
+              Manage Answer
+              <Link to='/admin/manage-answer' />
+            </MenuItem>
           </SubMenu>
         </Menu>
       </SidebarContent>
@@ -65,9 +74,7 @@ const SideBar = (props) => {
       <SidebarFooter style={{ textAlign: 'center' }}>
         <div
           className='sidebar-btn-wrapper'
-          style={{
-            padding: '20px 24px',
-          }}
+          style={{ padding: '20px 24px' }}
         >
           <a
             href='https://github.com/minatisleeping'

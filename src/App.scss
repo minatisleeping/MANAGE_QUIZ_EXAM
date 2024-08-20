@@ -83,11 +83,12 @@ body {
         background: black;
         color: white;
         height: 40px;
+        border: none;
 
         &:hover {
           background: #212529;
           color: white;
-          font-weight: 500;
+          cursor: pointer;
         }
       }
     }
