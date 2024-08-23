@@ -51,6 +51,7 @@ const ModalCreateUser = (props) => {
 
     if (data && data.EC === 0) {
       toast.success('Create user successfully!')
+      await props.fetchListUser()
       handleClose()
     }
 
