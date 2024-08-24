@@ -8,7 +8,6 @@ instance.interceptors.request.use(function (config) {
 }, (error) => Promise.reject(error))
 
 instance.interceptors.response.use((res) => {
-  console.log('🚀 ~ res:', res)
   return res && res.data ? res.data : res
 }, (err) => {
   console.log('🚀 ~ err:', err.response)
