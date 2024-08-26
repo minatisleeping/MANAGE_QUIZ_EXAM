@@ -3,11 +3,12 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import { FcPlus } from "react-icons/fc"
 import { toast } from 'react-toastify'
-import { postCreateUser } from '../../../services/apiService'
+import { putUpdateUser } from '../../../services/apiService'
 import _ from 'lodash'
 
 const ModalUpdateUser = (props) => {
-  const { show, setShow, dataUpdate } = props
+  const { show, setShow, dataUpdate, resetUpdateData } = props
+
   const handleClose = () => {
     setShow(false)
     setEmail('')
@@ -16,6 +17,7 @@ const ModalUpdateUser = (props) => {
     setUsername('')
     setImage('')
     setPreviewImage('')
+    resetUpdateData()
   }
 
   const [email, setEmail] = useState('')
@@ -55,18 +57,16 @@ const ModalUpdateUser = (props) => {
       )
   }
 
-  const handleSubmitCreateUser = async () => {
+  const handleSubmitUpdateUser = async () => {
     if (!validateEmail(email)) return toast.error('Email is invalid!')
 
-    if (!password) return toast.error('Password is required!')
-
-    const data = await postCreateUser(email, password, username, role, image)
+    const data = await putUpdateUser(dataUpdate.id, username, role, image)
     console.log('🚀 ~ data:', data)
 
     if (data && data.EC === 0) {
-      toast.success('Create user successfully!')
-      await props.fetchListUser()
+      toast.success('Update user successfully!')
       handleClose()
+      await props.fetchListUser()
     }
 
     if (data && data.EC !== 0) toast.error(data.EM)
@@ -123,8 +123,8 @@ const ModalUpdateUser = (props) => {
                 onChange={event => setRole(event.target.value)}
                 value={role}
               >
-                <option value='user'>User</option>
-                <option value='admin'>Admin</option>
+                <option value='USER'>User</option>
+                <option value='ADMIN'>Admin</option>
               </select>
             </div>
             <div className='col-md-12'>
@@ -151,7 +151,7 @@ const ModalUpdateUser = (props) => {
           <Button variant='secondary' onClick={handleClose}>
             Close
           </Button>
-          <Button variant='primary' onClick={() => handleSubmitCreateUser()}>
+          <Button variant='primary' onClick={() => handleSubmitUpdateUser()}>
             Save
           </Button>
         </Modal.Footer>
