@@ -64,7 +64,7 @@ const ModalCreateUser = (props) => {
         show={show}
         onHide={handleClose}
         size='lg'
-        backdrop='static'
+        backdrop='static' // prevent close modal when click outside
         className='modal-add-user'
       >
         <Modal.Header closeButton>

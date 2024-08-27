@@ -72,7 +72,6 @@ const ModalUpdateUser = (props) => {
     if (data && data.EC !== 0) toast.error(data.EM)
   }
 
-  console.log(dataUpdate)
   return (
     <>
       <Modal

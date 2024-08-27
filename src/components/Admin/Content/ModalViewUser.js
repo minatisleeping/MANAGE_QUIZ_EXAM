@@ -32,9 +32,7 @@ const ModalViewUser = (props) => {
       setRole(dataUpdate.role)
       setUsername(dataUpdate.username)
       setImage('')
-      if (dataUpdate.image) {
-        setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
-      }
+      if (dataUpdate.image) setPreviewImage(`data:image/jpeg;base64,${dataUpdate.image}`)
     }
   }, [dataUpdate])
 
