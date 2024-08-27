@@ -47,7 +47,6 @@ const ModalCreateUser = (props) => {
     if (!password) return toast.error('Password is required!')
 
     const data = await postCreateUser(email, password, username, role, image)
-    console.log('🚀 ~ data:', data)
 
     if (data && data.EC === 0) {
       toast.success('Create user successfully!')
