@@ -1,25 +1,26 @@
 import { useState } from 'react'
 import './Login.scss'
 import { useNavigate } from 'react-router-dom'
-import { postLogin } from '../../services/apiService'
+import { postRegister } from '../../services/apiService'
 import { toast } from 'react-toastify'
 
-const Login = () => {
+const Register = () => {
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
 
-  const handleClickLoginBtn = async () => {
+  const handleClickRegisterBtn = async () => {
     // validate
 
     // submit api
-    const res =  await postLogin(email, password)
+    const res =  await postRegister(username, email, password)
 
     if (res && res.EC === 0) {
-      toast.success('Login successfully!')
-      navigate('/')
+      toast.success('Register successfully!')
+      navigate('/login')
     }
-
+ 
     if (res && +res.EC !== 0) toast.error(res.EM)
   }
 
@@ -27,22 +28,21 @@ const Login = () => {
     navigate('/')
   }
 
-  const signUpPage = () => {
-    navigate('/register')
-  }
-
   return(
     <div className='login-container'>
-      <div className='header'>
-        <span>Don't have an account yet?</span>
-        <button onClick={() => signUpPage()}>Sign up</button>
-      </div>
       <div className='title col-4 mx-auto'>Minatisleeping</div>
       <div className='welcome col-4 mx-auto'>
-        Hello, who's this?
+        Register Form
       </div>
       <div className='content-form col-4 mx-auto'>
         <div className='form-group'>
+          <label>Username</label>
+          <input
+            type='text'
+            className='form-control'
+            value={username}
+            onChange={event => setUsername(event.target.value)}
+          />
           <label>Email</label>
           <input
             type='email'
@@ -60,12 +60,11 @@ const Login = () => {
             onChange={event => setPassword(event.target.value)}
           />
         </div>
-        <span className='text-decoration-underline'>Forgot password?</span>
         <div className='d-flex justify-content-center'>
           <button
-            onClick={() => handleClickLoginBtn()}
+            onClick={() => handleClickRegisterBtn()}
           >
-            Login to Minatisleeping
+            Register
           </button>
         </div>
         <div className='text-center btn-homepage' onClick={() => backHomePage()}>
@@ -76,4 +75,4 @@ const Login = () => {
   )
 }
  
-export default Login
+export default Register
