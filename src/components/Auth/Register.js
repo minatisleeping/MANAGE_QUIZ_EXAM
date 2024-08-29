@@ -36,14 +36,7 @@ const Register = () => {
       </div>
       <div className='content-form col-4 mx-auto'>
         <div className='form-group'>
-          <label>Username</label>
-          <input
-            type='text'
-            className='form-control'
-            value={username}
-            onChange={event => setUsername(event.target.value)}
-          />
-          <label>Email</label>
+          <label>Email <span className='text-danger'>(*)</span></label>
           <input
             type='email'
             className='form-control'
@@ -52,12 +45,21 @@ const Register = () => {
           />
         </div>
         <div className='form-group'>
-          <label>Password</label>
+          <label>Password <span className='text-danger'>(*)</span></label>
           <input
             type='password'
             className='form-control'
             value={password}
             onChange={event => setPassword(event.target.value)}
+          />
+        </div>
+        <div className='form-group'>
+          <label>Username</label>
+          <input
+            type='text'
+            className='form-control'
+            value={username}
+            onChange={event => setUsername(event.target.value)}
           />
         </div>
         <div className='d-flex justify-content-center'>
