@@ -3,6 +3,20 @@
     height: 45px;
     text-align: end;
     border: 1px solid red;
+    padding: 5px 100px 0;
+
+    button {
+      padding: 3px 15px;
+      margin-left: 15px;
+      border-radius: 5px;
+      background: #f9f9f9;
+      border: 1px solid;
+
+      &:hover {
+        background: white;
+        box-shadow: 0 0 2px 0;
+      }
+    }
   }
 
   .title {
@@ -38,9 +52,18 @@
       border: none;
       margin: 20px 0;
       color: white;
-      background-color: hotpink;
+      background-color: lightpink;
       font-weight: 900;
       border-radius: 15px;
+    }
+  }
+
+  .btn-homepage {
+    height: 50px;
+    padding-top: 20px;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }
