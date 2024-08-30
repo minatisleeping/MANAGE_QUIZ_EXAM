@@ -1,5 +1,4 @@
 import { Route, Routes } from 'react-router-dom'
-import User from './components/User/User'
 import Admin from './components/Admin/Admin'
 import HomePage from './components/Home/HomePage'
 import ManageUser from './components/Admin/Content/ManageUser'
@@ -8,6 +7,7 @@ import Login from './components/Auth/Login'
 import App from './App'
 import { ToastContainer } from 'react-toastify'
 import Register from './components/Auth/Register'
+import ListQuiz from './components/User/ListQuiz'
 
 const Layout = (props) => {
   return (
@@ -15,7 +15,7 @@ const Layout = (props) => {
       <Routes>
         <Route path='/' element={<App />}>
           <Route index element={<HomePage />} />
-          <Route path='/user' element={<User />} />
+          <Route path='/user' element={<ListQuiz />} />
         </Route>
         <Route path='/admin' element={<Admin />}>
           <Route index element={<Dashboard />} />

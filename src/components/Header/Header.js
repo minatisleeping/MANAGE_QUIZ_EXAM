@@ -24,25 +24,15 @@ const Header = () => {
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='me-auto'>
-            <NavLink to='/' className='nav-link'>
-              Home
-            </NavLink>
-            <NavLink to='/user' className='nav-link'>
-              User
-            </NavLink>
-            <NavLink to='/admin' className='nav-link'>
-              Admin
-            </NavLink>
+            <NavLink to='/' className='nav-link'>Home</NavLink>
+            <NavLink to='/user' className='nav-link'>User</NavLink>
+            <NavLink to='/admin' className='nav-link'>Admin</NavLink>
           </Nav>
           <Nav>
             {isAuthenticated === false ? (
               <>
-                <button className='btn-login' onClick={() => handleLogin()}>
-                  Log In
-                </button>
-                <button className='btn-signup' onClick={() => handleRegister()}>
-                  Sign Up
-                </button>
+                <button className='btn-login' onClick={() => handleLogin()}>Log In</button>
+                <button className='btn-signup' onClick={() => handleRegister()}>Sign Up</button>
               </>
             ) : (
               <NavDropdown title='Settings' id='basic-nav-dropdown'>
