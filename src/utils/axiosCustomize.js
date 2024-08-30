@@ -18,7 +18,7 @@ instance.interceptors.response.use((res) => {
   nProgress.done();
   return res && res.data ? res.data : res
 }, (err) => {
-  console.log('🚀 ~ err:', err.response)
+  nProgress.done();
   return err && err.response && err.response.data
     ? err.response.data
     : Promise.reject(err)
