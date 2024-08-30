@@ -22,7 +22,7 @@ const ModalViewUser = (props) => {
   const [password, setPassword] = useState('')
   const [role, setRole] = useState('user')
   const [username, setUsername] = useState('')
-  const [image, setImage] = useState('')
+  const [, setImage] = useState('')
   const [previewImage, setPreviewImage] = useState('')
 
   useEffect(() => {
