@@ -2,7 +2,6 @@
   .header {
     height: 45px;
     text-align: end;
-    border: 1px solid red;
     padding: 5px 100px 0;
 
     button {
@@ -33,17 +32,16 @@
   }
 
   .content-form {
-
     input {
       margin: 3px 0px 15px;
     }
 
     span {
-      color: gray;
+      color: #2d3436;
 
-      &:hover {
-        cursor: pointer;
-      }
+      // &:hover {
+      //   cursor: pointer;
+      // }
     }
 
     button {
@@ -52,9 +50,15 @@
       border: none;
       margin: 20px 0;
       color: white;
-      background-color: lightpink;
+      background-color: #ffeaa7;
       font-weight: 900;
       border-radius: 15px;
+
+      &:disabled {
+        background-color: #dddddd;
+        color: #afafaf;
+        cursor: no-drop;
+      }
     }
   }
 
@@ -64,6 +68,22 @@
 
     &:hover {
       cursor: pointer;
+    }
+  }
+
+  .loading-icon {
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #00d4ff;
+    animation: spin 0.8s infinite linear;
+  }
+
+  @keyframes spin {
+    from {
+      transform: scale(1) rotate(0deg);
+    }
+    to {
+      transform: scale(1) rotate(360deg);
     }
   }
 }

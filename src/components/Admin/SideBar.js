@@ -5,7 +5,7 @@ import {
   SidebarFooter,
   SidebarContent,
 } from 'react-pro-sidebar'
-import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart } from 'react-icons/fa'
+import { FaGem, FaGithub } from 'react-icons/fa'
 import sidebarBg from '../../assets/bg2.jpg'
 import './SideBar.scss'
 import { DiReact } from 'react-icons/di'
@@ -13,7 +13,7 @@ import { MdDashboard } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 const SideBar = (props) => {
-  const { image, collapsed, toggled, handleToggleSidebar } = props
+  const { collapsed, toggled, handleToggleSidebar } = props
   return(
     <>
       <ProSidebar
