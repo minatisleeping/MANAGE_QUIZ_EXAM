@@ -3,33 +3,33 @@ import './Login.scss'
 import { useNavigate } from 'react-router-dom'
 import { postLogin } from '../../services/apiService'
 import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { doLogin } from '../../redux/action/userAction'
 
 const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const handleClickLoginBtn = async () => {
     // validate
 
     // submit api
-    const res =  await postLogin(email, password)
+    const data =  await postLogin(email, password)
 
-    if (res && res.EC === 0) {
+    if (data && data.EC === 0) {
+      dispatch(doLogin(data))
       toast.success('Login successfully!')
       navigate('/')
     }
 
-    if (res && +res.EC !== 0) toast.error(res.EM)
+    if (data && +data.EC !== 0) toast.error(data.EM)
   }
 
-  const backHomePage = () => {
-    navigate('/')
-  }
-
-  const signUpPage = () => {
-    navigate('/register')
-  }
+  const backHomePage = () => navigate('/')
+  const signUpPage = () => navigate('/register')
 
   return(
     <div className='login-container'>
