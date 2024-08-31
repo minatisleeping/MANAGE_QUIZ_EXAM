@@ -69,7 +69,6 @@ const ModalUpdateUser = (props) => {
     if (!validateEmail(email)) return toast.error('Email is invalid!')
 
     const data = await putUpdateUser(dataUpdate.id, username, role, image)
-    console.log('🚀 ~ data:', data)
 
     if (data && data.EC === 0) {
       toast.success('Update user successfully!')
