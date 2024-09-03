@@ -18,6 +18,16 @@
         font-size: 20px;
         font-weight: 600;
       }
+
+      .q-image {
+        display: flex;
+        justify-content: center;
+
+        img {
+          width: 400px;
+          height: 300px;
+        }
+      }
     }
 
     .footer {
