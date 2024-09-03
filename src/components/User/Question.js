@@ -6,8 +6,6 @@ const Question = (props) => {
   if (_.isEmpty(data)) return (<></>)
 
   const handleTickCheckbox = (event, aId, qId) => {
-    // console.log('🚀 ~ aId, qId:', aId, qId)
-    // console.log(event.target.checked)
     handleCheckbox(aId, qId)
   }
 
