@@ -7,16 +7,19 @@ const Question = (props) => {
 
   return (
     <>
-      {data.image &&
-        <div className='q-image'>
-          <img src={`data:image/png;base64, ${data.image}` } alt='img-question'/>
-        </div>
+      {data.image
+        ? <div className='q-image'>
+            <img src={`data:image/png;base64, ${data.image}` } alt='img-question'/>
+          </div>
+        : <div className='q-image'>
+
+          </div>
       }
       <div className='question'>Question {index + 1}: {data.questionDesc}?</div>
       <div className='answer'>
         {data.answers && data.answers.length && data.answers.map((item, index) => {
           return (
-            <div key={`answer-${index}`}>
+            <div className='a-child' key={`answer-${index}`}>
               <div class='form-check'>
                 <input class='form-check-input' type='checkbox' value=''/>
                 <label class='form-check-label'>
