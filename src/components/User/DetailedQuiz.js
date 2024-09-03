@@ -1,15 +1,19 @@
-import { useEffect } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { getQuizById } from '../../services/apiService'
 import _ from 'lodash'
 import './DetailedQuiz.scss'
+import Question from './Question'
 
 const DetailedQuiz = () => {
   const params = useParams()
   const location = useLocation()
   const quizId = params.id
   
-  console.log('🚀 ~ location:', location)
+  const [dataQuiz, setDataQuiz] = useState([])
+  const [index, setIndex] = useState(0)
+
   useEffect(() => {
     fetchQuestions()
   }, [quizId])
@@ -20,7 +24,7 @@ const DetailedQuiz = () => {
     if (res && res.EC === 0) {
       let raw = res.DT
       let data = _.chain(raw)
-        .groupBy("id")
+        .groupBy('id')
         .map((value, key) => {
           let answers = []
           let questionDesc, image = null
@@ -36,8 +40,12 @@ const DetailedQuiz = () => {
         })
         .value()
       console.log('🚀 ~ data:', data)
+      setDataQuiz(data)
     }
   }
+
+  const handlePrev = () => dataQuiz && index > 0 && setIndex(index - 1) // Nếu index > 0 thì mới cho phép giảm index
+  const handleNext = () => dataQuiz && dataQuiz.length > index + 1 && setIndex(index + 1) // Nếu index < dataQuiz.length thì mới cho phép tăng index
 
   return(
     <div className='detail-quiz-container'>
@@ -50,16 +58,19 @@ const DetailedQuiz = () => {
           <img alt=''/>
         </div>
         <div className='q-content'>
-          <div className='question'>Question 1: How are u doing?</div>
-          <div className='answer'>
-            <div className='a-child'>A. Con chim</div>
-            <div className='b-child'>B. Con mèo</div>
-            <div className='c-child'>C. Con kền kền</div>
-          </div>
+          <Question index={index} data={
+            dataQuiz && dataQuiz.length > 0
+            ? dataQuiz[index]
+            : []
+          } />
         </div>
         <div className='footer'>
-          <button className='btn btn-primary'>Prev</button>
-          <button className='btn btn-secondary'>Next</button>
+          <button className='btn btn-primary' onClick={() => handlePrev()}>
+            Prev
+          </button>
+          <button className='btn btn-secondary' onClick={() => handleNext()}>
+            Next
+          </button>
         </div>
       </div>
       <div className='right-content'>
