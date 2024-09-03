@@ -1,9 +1,15 @@
 import _ from 'lodash'
 
 const Question = (props) => {
-  const { data, index } = props  
+  const { data, index, handleCheckbox } = props  
 
   if (_.isEmpty(data)) return (<></>)
+
+  const handleTickCheckbox = (event, aId, qId) => {
+    // console.log('🚀 ~ aId, qId:', aId, qId)
+    // console.log(event.target.checked)
+    handleCheckbox(aId, qId)
+  }
 
   return (
     <>
@@ -20,9 +26,14 @@ const Question = (props) => {
         {data.answers && data.answers.length && data.answers.map((item, index) => {
           return (
             <div className='a-child' key={`answer-${index}`}>
-              <div class='form-check'>
-                <input class='form-check-input' type='checkbox' value=''/>
-                <label class='form-check-label'>
+              <div className='form-check'>
+                <input
+                  className='form-check-input'
+                  type='checkbox'
+                  checked={item.isSelected}
+                  onChange={(event) => handleTickCheckbox(event, item.id, data.questionId)}
+                />
+                <label className='form-check-label'>
                   {item.description}
                 </label>
               </div>
