@@ -40,7 +40,6 @@ const DetailedQuiz = () => {
           return { questionId: key, questionDesc, answers, image }
         })
         .value()
-      console.log('🚀 ~ data:', data)
       setDataQuiz(data)
     }
   }
@@ -49,10 +48,49 @@ const DetailedQuiz = () => {
 
   const handleNext = () => dataQuiz && dataQuiz.length > index + 1 && setIndex(index + 1) // Nếu index < dataQuiz.length thì mới cho phép tăng index
 
+  const handleFinish = () => {
+    /**
+     {
+        "quizId": 1,
+        "answers": [
+            { 
+                "questionId": 1,
+                "userAnswerId": [3]
+            },
+            { 
+                "questionId": 2,
+                "userAnswerId": [6]
+            }
+        ]
+    }
+     */
+    console.log('🚀 ~ dataQuiz:', dataQuiz)
+    let payload = {
+      quizId: +quizId,
+      answers: []
+    }
+    let answers = []
+
+    if (dataQuiz && dataQuiz.length > 0) {
+      dataQuiz.forEach(question => {
+        let questionId = +question.questionId
+        let userAnswerId = []
+
+        question.answers.forEach(answer => {
+          if (answer.isSelected) userAnswerId.push(answer.id)
+        })
+
+        answers.push({ questionId, userAnswerId })
+      })
+    }
+
+    payload.answers = answers
+    console.log('🚀 ~ payload.answers:', payload.answers)
+  }
+
   const handleCheckbox = (answerId, questionId) => {
     let dataQuizClone = _.cloneDeep(dataQuiz)
     let question = dataQuizClone.find(item => +item.questionId === +questionId)
-    console.log('🚀 ~ question:', question)
 
     if (question && question.answers) {
       let tmp = question.answers.map(item => {
@@ -70,7 +108,6 @@ const DetailedQuiz = () => {
       setDataQuiz(dataQuizClone)
     }
   }
-
 
   return(
     <div className='detail-quiz-container'>
@@ -100,7 +137,7 @@ const DetailedQuiz = () => {
           <button className='btn btn-secondary' onClick={() => handleNext()}>
             Next
           </button>
-          <button className='btn btn-warning' onClick={() => handleNext()}>
+          <button className='btn btn-warning' onClick={() => handleFinish()}>
             Finish
           </button>
         </div>
