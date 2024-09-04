@@ -1,10 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { getQuizById } from '../../services/apiService'
+import { getQuizById, postSubmitQuiz } from '../../services/apiService'
 import _ from 'lodash'
 import './DetailedQuiz.scss'
 import Question from './Question'
+import ModalResult from './ModalResult'
 
 const DetailedQuiz = () => {
   const params = useParams()
@@ -13,6 +14,8 @@ const DetailedQuiz = () => {
   
   const [dataQuiz, setDataQuiz] = useState([])
   const [index, setIndex] = useState(0)
+  const [isShowModalResult, setIsShowModalResult] = useState(false)
+  const [dataModalResult, setDataModalResult] = useState({})
 
   useEffect(() => {
     fetchQuestions()
@@ -48,23 +51,9 @@ const DetailedQuiz = () => {
 
   const handleNext = () => dataQuiz && dataQuiz.length > index + 1 && setIndex(index + 1) // Nếu index < dataQuiz.length thì mới cho phép tăng index
 
-  const handleFinish = () => {
-    /**
-     {
-        "quizId": 1,
-        "answers": [
-            { 
-                "questionId": 1,
-                "userAnswerId": [3]
-            },
-            { 
-                "questionId": 2,
-                "userAnswerId": [6]
-            }
-        ]
-    }
-     */
+  const handleFinish = async () => {
     console.log('🚀 ~ dataQuiz:', dataQuiz)
+
     let payload = {
       quizId: +quizId,
       answers: []
@@ -85,7 +74,21 @@ const DetailedQuiz = () => {
     }
 
     payload.answers = answers
-    console.log('🚀 ~ payload.answers:', payload.answers)
+    
+    // submit api
+    const res = await postSubmitQuiz(payload)
+    console.log('🚀 ~ res:', res)
+
+    if (res && res.EC === 0) {
+      setDataModalResult({
+        countCorrect: res.DT.countCorrect,
+        countTotal: res.DT.countTotal,
+        quizData: res.DT.quizData
+      })
+      setIsShowModalResult(true)
+    } else {
+      alert('Something went wrong!')
+    }
   }
 
   const handleCheckbox = (answerId, questionId) => {
@@ -145,6 +148,11 @@ const DetailedQuiz = () => {
       <div className='right-content'>
         Count down
       </div>
+      <ModalResult
+        show={isShowModalResult}
+        setShow={setIsShowModalResult}
+        dataModalResult={dataModalResult}
+      />
     </div>
   )
 }
