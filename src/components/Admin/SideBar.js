@@ -10,10 +10,12 @@ import sidebarBg from '../../assets/bg2.jpg'
 import './SideBar.scss'
 import { DiReact } from 'react-icons/di'
 import { MdDashboard } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SideBar = (props) => {
   const { collapsed, toggled, handleToggleSidebar } = props
+  const nav = useNavigate()
+
   return(
     <>
       <ProSidebar
@@ -36,8 +38,10 @@ const SideBar = (props) => {
             whiteSpace: 'nowrap',
           }}
         >
-          <DiReact size={'2.5em'} color={'00bfff'}/>
-          &nbsp;Minatisleeping
+          <DiReact size={'2.5em'} color={'00bfff'} onClick={() => nav('/')} style={{ cursor:'pointer' }}/>
+          <span onClick={() => nav('/')} style={{ cursor:'pointer' }}>
+            &nbsp;Minatisleeping
+          </span>
         </div>
       </SidebarHeader>
 
