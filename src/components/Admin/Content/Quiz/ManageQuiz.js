@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import './ManageQuiz.scss'
 import Select from 'react-select'
+import { createNewQuiz } from '../../../../services/apiService'
+import { toast } from 'react-toastify'
 
 const options = [
   { value: 'EASY', label: 'EASY' },
@@ -15,7 +17,24 @@ const ManageQuiz = () => {
   const [image, setImage] = useState(null)
 
   const handleChangeFile = (event) => {
-    // setType(event)
+    if (event.target && event.target.files && event.target.files[0]) {
+      setImage(event.target.files[0])
+    }
+  }
+
+  const handleSubmitQuiz = async () => {
+    if (!name) return toast.error('Name is required!')
+    if (!description) return toast.error('Description is required!')
+    
+    const res = await createNewQuiz(description, name, type?.value, image)
+    if (res && res.EC === 0) {
+      toast.success('Create quiz successfully!')
+      setName('')
+      setDescription('')
+      setImage(null)
+    } else {
+      toast.error(res.EM)
+    }
   }
 
   return(
@@ -49,10 +68,10 @@ const ManageQuiz = () => {
           </div>
           <div className='my-3'>
             <Select
-              value={type}
+              defaultValue={type}
+              onChange={setType}
               options={options}
               placeholder='Quiz type..'
-              
             />
           </div>
           <div className='more-actions form-group'>
@@ -63,6 +82,15 @@ const ManageQuiz = () => {
               className='form-control'
               onChange={(event) => handleChangeFile(event)}
             />
+          </div>
+          <div className='mt-3 d-flex justify-content-center'>
+            <button
+              style={{ cursor:'pointer' }}
+              className='btn btn-warning w-100'
+              onClick={() => handleSubmitQuiz()}
+            >
+              Save
+            </button>
           </div>
         </fieldset>
       </div>
