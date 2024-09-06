@@ -1,19 +1,30 @@
 import { useEffect, useState } from 'react'
 import { getAllQuizByAdmin } from '../../../../services/apiService'
+import ModalUpdateQuiz from './ModalUpdateQuiz'
 
 const TableQuiz = (props) => {
   const [listQuiz, setListQuiz] = useState([])
+  const [isShowModalUpdate, setIsShowModalUpdate] = useState(false)
+  const [dataUpdate, setDataUpdate] = useState({})
 
   useEffect(() => {
     fetchListQuiz()
   }, [])
 
   const fetchListQuiz = async () => {
+    setDataUpdate({})
     const res = await getAllQuizByAdmin()
     console.log('🚀 ~ res.DT:', res.DT)
     if (res && res.EC === 0) {
       setListQuiz(res.DT)
     }
+  }
+
+  const handleUpdateQuiz = (quiz) => {
+    console.log('🚀 ~ quiz:', quiz)
+    
+    setDataUpdate(quiz)
+    setIsShowModalUpdate(true)
   }
 
   return (
@@ -38,14 +49,25 @@ const TableQuiz = (props) => {
                 <td>{quiz.description}</td>
                 <td className='ps-3 pt-3'>{quiz.difficulty}</td>
                 <td style={{ display:'flex', gap: '15px' }}>
-                  <button className='btn btn-warning'>Edit</button>
-                  <button className='btn btn-danger'>Delete</button>
+                  <button className='btn btn-warning' onClick={() => handleUpdateQuiz(quiz)}>
+                    Edit
+                  </button>
+                  <button className='btn btn-danger' onClick={() => handleUpdateQuiz()}>
+                    Delete
+                  </button>
                 </td>
               </tr>
             )
           })}
         </tbody>
       </table>
+      <ModalUpdateQuiz
+        show={isShowModalUpdate}
+        setShow={setIsShowModalUpdate}
+        dataUpdate={dataUpdate}
+        setDataUpdate={setDataUpdate}
+        fetchQuiz={fetchListQuiz}
+      />
     </>
   )
 }
