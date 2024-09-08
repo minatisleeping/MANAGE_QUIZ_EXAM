@@ -19,29 +19,40 @@
       padding-top: 15px;
 
       .lbl-up {
-        height: 30px;
-        border: 1px solid red;
-        border-radius: 5px;
-        padding: 0 10px;
         margin-right: 5px;
         cursor: pointer;
+        color: #9068ff;
+        font-size: 25px;
+
+        &:hover {
+          color: #4400ff;
+        }
       }
     }
 
     .btn-add {
-      padding: 15px;
+      // padding: 20px;
+      margin-top: 22px;
 
       .icon-add {
-        font-size: 30px;
-        color: red;
+        font-size: 25px;
+        color: #2596ff;
         cursor: pointer;
+
+        &:hover {
+          color: #0989ff;
+        }
       }
 
       .icon-remove {
-        margin-left: 30px;
-        font-size: 30px;
-        color: green;
+        margin-left: 10px;
+        font-size: 25px;
+        color: #e8771c;
         cursor: pointer;
+
+        &:hover {
+          color: #ff7608;
+        }
       }
     }
   }
@@ -63,16 +74,24 @@
     .btn-group {
 
       .icon-add {
-        font-size: 30px;
-        color: red;
+        font-size: 25px;
+        color: #2596ff;
         cursor: pointer;
+
+        &:hover {
+          color: #0989ff;
+        }
       }
 
       .icon-remove {
-        font-size: 30px;
-        color: green;
+        margin-left: 10px;
+        font-size: 25px;
+        color: #e8771c;
         cursor: pointer;
-        margin-left: 30px;
+
+        &:hover {
+          color: #ff7608;
+        }
       }
     }
   }
