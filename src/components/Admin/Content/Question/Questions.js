@@ -149,14 +149,13 @@ const Questions = () => {
     // validate data
 
     // submit question
-    await Promise.all(questions.map(async (question) => {
-      const questionRes = await postCreateNewQuestionForQuiz(Number(selectedQuiz.value), question.description, question.imageFile)
-      
-      // submit answer
-      await Promise.all(question.answers.map(async (answer) => {
-        return await postCreateNewAnswerForQuestion(questionRes.DT.id, answer.description, answer.isCorrect)
-      }))
-    }))
+    for (const question of questions) {
+      const q = await postCreateNewQuestionForQuiz(selectedQuiz.value, question.description, question.imageFile)
+
+      for (const answer of question.answers) {
+        await postCreateNewAnswerForQuestion(q.DT.id, answer.description, answer.isCorrect)
+      }
+    }
   }
 
   const handlePreviewImage = (questionId) => {
