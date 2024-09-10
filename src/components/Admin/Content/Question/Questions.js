@@ -5,7 +5,8 @@ import { BsPatchMinusFill, BsPatchPlusFill } from 'react-icons/bs'
 import { AiFillPlusSquare, AiFillMinusSquare } from 'react-icons/ai'
 import { RiImageAddFill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
-import _ from 'lodash';
+import _ from 'lodash'
+import Lightbox from 'react-awesome-lightbox'
 
 const Questions = () => {
   const options = [
@@ -32,6 +33,11 @@ const Questions = () => {
       }
     ]
   )
+  const [isPreviewImage, setIsPreviewImage] = useState(false)
+  const [dataImagePreview, setDataImagePreview] = useState({
+    title: '',
+    url: ''
+  })
 
   const handleAddRemoveQuestion = (type, id) => {
     if (type === 'ADD') {
@@ -129,6 +135,18 @@ const Questions = () => {
     console.log('🚀 ~ questions', questions)
   }
 
+  const handlePreviewImage = (questionId) => {
+    const questionClone = _.cloneDeep(questions)
+    const index = questionClone.findIndex(item => item.id === questionId)
+    if (index > -1) {
+      setDataImagePreview({
+        url: URL.createObjectURL(questionClone[index].imageFile),
+        title: questionClone[index].imageName 
+      })
+      setIsPreviewImage(true)
+    }
+  }
+
   return (
     <div className='questions-container'>
       <div className='title'>Manage Questions</div>
@@ -172,7 +190,11 @@ const Questions = () => {
                   />
                   <span>
                     {question.imageName
-                      ? question.imageName
+                      ? <span
+                          style={{ cursor: 'pointer' }}
+                          onClick={() => handlePreviewImage(question.id)}>
+                            {question.imageName}
+                          </span>
                       : '0 file is uploaded'
                     }
                   </span>
@@ -237,6 +259,14 @@ const Questions = () => {
             Save Questions
           </button>
         </div>
+      }
+      {
+        isPreviewImage &&
+        <Lightbox
+          image={dataImagePreview.url}
+          title={dataImagePreview.title}
+          onClose={() => setIsPreviewImage(false)}
+        />
       }
     </div>
   )
