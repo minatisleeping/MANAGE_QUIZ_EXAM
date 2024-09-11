@@ -8,25 +8,25 @@ import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
 import Lightbox from 'react-awesome-lightbox'
 import { getAllQuizByAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../../services/apiService'
+import { toast } from 'react-toastify'
 
 const Questions = () => {
-  const [questions, setQuestions] = useState(
-    [
-      {
-        id: uuidv4(),
-        description: '',
-        imageFile: '',
-        imageName: '',
-        answers: [
-          {
-            id: uuidv4(),
-            description: '',
-            isCorrect: false
-          }
-        ]
-      }
-    ]
-  )
+  const initQuestion = [
+    {
+      id: uuidv4(),
+      description: '',
+      imageFile: '',
+      imageName: '',
+      answers: [
+        {
+          id: uuidv4(),
+          description: '',
+          isCorrect: false
+        }
+      ]
+    }
+  ]
+  const [questions, setQuestions] = useState(initQuestion)
   const [isPreviewImage, setIsPreviewImage] = useState(false)
   const [dataImagePreview, setDataImagePreview] = useState({
     title: '',
@@ -146,16 +146,50 @@ const Questions = () => {
 
   const handleSubmitQuestionForQuiz = async () => {
     // todo
-    // validate data
+    if (_.isEmpty(selectedQuiz)) return toast.error('Please select a quiz!')
+    
+    // validate answer
+    let isValidAnswer = true
+    let indexQ = 0, indexA = 0
+    for (let i = 0; i < questions.length; i++) {
+      for (let j = 0; j < questions[i].answers.length; j++) {
+        if (!questions[i].answers[j].description) {
+          isValidAnswer = false
+          indexQ = i
+          indexA = j
+          break
+        }
+      }
+      if (!isValidAnswer) break
+    }
 
+    // chưa có câu trả lời
+    if (!isValidAnswer) return toast.error(`No answer q${indexQ + 1} - a${indexA + 1} yet!`)
+
+    // validate question
+    let isValidQuestion = true
+    let indexQ1 = 0
+    for (let i = 0; i < questions.length; i++) {
+      if (!questions[i].description) {
+        isValidQuestion = false
+        indexQ1 = i
+        break
+      }
+    }
+
+    // chưa có câu hỏi
+    if (!isValidQuestion) return toast.error(`No describe q${indexQ1 + 1} yet!`)
     // submit question
     for (const question of questions) {
       const q = await postCreateNewQuestionForQuiz(selectedQuiz.value, question.description, question.imageFile)
-
       for (const answer of question.answers) {
         await postCreateNewAnswerForQuestion(q.DT.id, answer.description, answer.isCorrect)
       }
     }
+
+    toast.success('Create question and answer successfully!')
+    // reset form
+    setQuestions(initQuestion)
   }
 
   const handlePreviewImage = (questionId) => {
