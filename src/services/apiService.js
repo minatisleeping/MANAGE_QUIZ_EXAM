@@ -96,6 +96,10 @@ const postCreateNewAnswerForQuestion = (question_id, description, correct_answer
   return axios.post('api/v1/answer', { question_id, description, correct_answer })
 }
 
+const postAssignQuiz = (quiz_id, user_id) => {
+  return axios.post('api/v1/quiz-assign-to-user', { quizId: quiz_id, userId: user_id })
+}
+
 export {
   postCreateUser,
   getAllUsers,
@@ -112,4 +116,5 @@ export {
   putUpdateQuizByAdmin,
   postCreateNewQuestionForQuiz,
   postCreateNewAnswerForQuestion,
+  postAssignQuiz,
 }
