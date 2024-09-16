@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react'
 import Select from 'react-select'
 import './QuizQA.scss'
@@ -7,7 +8,7 @@ import { RiImageAddFill } from 'react-icons/ri'
 import { v4 as uuidv4 } from 'uuid'
 import _ from 'lodash'
 import Lightbox from 'react-awesome-lightbox'
-import { getAllQuizByAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion } from '../../../../services/apiService'
+import { getAllQuizByAdmin, postCreateNewQuestionForQuiz, postCreateNewAnswerForQuestion, getQuizWithQA } from '../../../../services/apiService'
 import { toast } from 'react-toastify'
 
 const QuizQA = () => {
@@ -34,10 +35,46 @@ const QuizQA = () => {
   })
   const [listQuiz, setListQuiz] = useState([])
   const [selectedQuiz, setSelectedQuiz] = useState({})
+  console.log('🚀 ~ selectedQuiz:', selectedQuiz)
   
   useEffect(() => {
     fetchListQuiz()
   }, [])
+
+  useEffect(() => {
+    if (selectedQuiz && selectedQuiz.value) {
+      fetchQuizWithQA()
+    }
+  }, [selectedQuiz])
+
+  function urltoFile(url, filename, mimeType){
+    return fetch(url)
+      .then(res => res.arrayBuffer())
+      .then(buf => new File([buf], filename,{type:mimeType}))
+  }
+
+  urltoFile('data:text/plain;base64,aGVsbG8=', 'hello.txt','text/plain')
+  .then(function(file){ console.log(file);});
+
+  const fetchQuizWithQA = async () => {
+    const res = await getQuizWithQA(selectedQuiz.value)
+    if (res && res.EC === 0) {
+      // convert base64 to file Object
+      let newQA = []
+      for (let i = 0; i < res.DT.qa.length; i++) {
+        let q = res.DT.qa[i]
+        if (q.imageFile) {
+          q.imageName = `Question-${q.id}.png`
+          q.imageFile = await urltoFile(`data:image/png;base64,${q.imageFile}`, `Question-${q.id}.png`, 'image/png')
+        }
+        newQA.push(q)
+      }
+      setQuestions(newQA)
+      console.log('🚀 ~ newQA:', newQA)
+      console.log('🚀 ~ res:', res)
+    }
+    
+  }
   
   const fetchListQuiz = async () => {
     const res = await getAllQuizByAdmin()

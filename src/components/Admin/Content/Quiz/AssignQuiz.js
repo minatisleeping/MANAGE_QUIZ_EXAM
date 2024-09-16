@@ -23,7 +23,6 @@ const AssignQuiz = () => {
           label: `${item.id} - ${item.description}`
         }
       })
-      console.log(123)
       setListQuiz(newQuiz)
     }
   }
